@@ -1,0 +1,1 @@
+Hello, all the elements of the background and the racers are included in the file as PNG (the design files are the .ai files I initially sent.)  To make the racers appear faster, the lengths of the road, fence, grass, etc., need to be rearranged to match the desired speed without disrupting the pattern. It's important that the movements are consistent and realistic. 

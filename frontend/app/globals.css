@@ -1,0 +1,1648 @@
+/* MemeRace Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --primary-blue: #1e90ff;
+  --primary-blue-dark: #0066cc;
+  --primary-blue-light: #4da6ff;
+  --accent-orange: #ff8c00;
+  --accent-gold: #ffd700;
+  --bg-gradient-start: #1e90ff;
+  --bg-gradient-end: #0066cc;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --text-dark: #1a1a2e;
+  --text-light: #ffffff;
+  --success-green: #00c853;
+  --error-red: #ff5252;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  min-height: 100vh;
+  color: var(--text-light);
+}
+
+/* Loading/Intro Screen */
+.intro-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  /* Sky section */
+  background: 
+    /* Grass strip at bottom */
+    linear-gradient(to top, #4CAF50 0%, #4CAF50 8%, transparent 8%),
+    /* White fence */
+    linear-gradient(to top, white 8%, white 10%, transparent 10%),
+    /* Road/track */
+    linear-gradient(to top, #606060 10%, #606060 55%, transparent 55%),
+    /* Green field behind road */
+    linear-gradient(to top, #7CB342 55%, #558B2F 62%, transparent 62%),
+    /* Sky gradient */
+    linear-gradient(180deg, #5BA3D9 0%, #87CEEB 100%);
+}
+
+/* Road lane markers - horizontal dashed lines */
+.intro-screen::before {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 20px,
+    rgba(255,255,255,0.3) 20px,
+    rgba(255,255,255,0.3) 40px
+  );
+  animation: moveRoadMarkers 2s linear infinite;
+}
+
+@keyframes moveRoadMarkers {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-40px); }
+}
+
+/* Fence posts effect */
+.intro-screen::after {
+  content: '';
+  position: absolute;
+  bottom: 8%;
+  left: 0;
+  right: 0;
+  height: 2.5%;
+  background: repeating-linear-gradient(
+    90deg,
+    white 0px,
+    white 4px,
+    transparent 4px,
+    transparent 30px
+  );
+}
+
+/* Decorative clouds for intro */
+.intro-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 25%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.intro-cloud {
+  position: absolute;
+  width: 80px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50px;
+  animation: floatCloud 6s ease-in-out infinite;
+}
+
+.intro-cloud::before,
+.intro-cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+}
+
+.intro-cloud::before {
+  width: 40px;
+  height: 40px;
+  top: -20px;
+  left: 10px;
+}
+
+.intro-cloud::after {
+  width: 50px;
+  height: 50px;
+  top: -25px;
+  right: 10px;
+}
+
+@keyframes floatCloud {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(20px); }
+}
+
+/* Decorative trees for intro */
+.intro-trees {
+  position: absolute;
+  top: 38%;
+  left: 0;
+  right: 0;
+  height: 17%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.intro-tree {
+  position: absolute;
+  bottom: 0;
+}
+
+.intro-tree::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 20px;
+  background: #5D4037;
+}
+
+.intro-tree::after {
+  content: '';
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 40px;
+  background: #2E7D32;
+  border-radius: 50%;
+}
+
+.intro-logo {
+  width: 280px;
+  max-width: 80vw;
+  margin-bottom: 60px;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.loading-container {
+  text-align: center;
+  width: 100%;
+  max-width: 350px;
+}
+
+.loading-text {
+  font-family: 'Fredoka One', cursive;
+  font-size: 28px;
+  color: white;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.loading-bar-bg {
+  width: 100%;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+.loading-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #87ceeb, #b0e0e6);
+  border-radius: 12px;
+  transition: width 0.3s ease;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: 200px 0; }
+}
+
+/* Main Menu Screen */
+.main-menu {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #1e90ff 0%, #0066cc 100%);
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: linear-gradient(90deg, #1e90ff, #0066cc);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.menu-header-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.menu-header-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 32px;
+  background: linear-gradient(180deg, #ffcc00 0%, #ff8800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
+}
+
+.race-preview {
+  position: relative;
+  flex: 1;
+  min-height: 300px;
+  overflow: hidden;
+  border-radius: 8px;
+  margin: 6px 10px;
+  background: #1a1a2e;
+}
+
+/* Mini race preview (Phaser canvas container) */
+.race-preview-mini {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.race-preview-mini canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* Road lane markers for race preview */
+.race-preview::before {
+  content: none;
+}
+
+/* Fence posts effect for race preview */
+.race-preview::after {
+  content: none;
+}
+
+@keyframes moveFencePosts {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-30px); }
+}
+
+/* Clouds for race preview */
+.preview-clouds {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 20%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.preview-cloud {
+  position: absolute;
+  width: 60px;
+  height: 22px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50px;
+  animation: floatCloud 6s ease-in-out infinite;
+}
+
+.preview-cloud::before,
+.preview-cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+}
+
+.preview-cloud::before {
+  width: 30px;
+  height: 30px;
+  top: -15px;
+  left: 8px;
+}
+
+.preview-cloud::after {
+  width: 36px;
+  height: 36px;
+  top: -18px;
+  right: 8px;
+}
+
+/* Trees for race preview */
+.preview-trees {
+  position: absolute;
+  top: 20%;
+  left: 0;
+  right: 0;
+  height: 10%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.preview-tree {
+  position: absolute;
+  bottom: 0;
+}
+
+.preview-tree::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 15px;
+  background: #5D4037;
+}
+
+.preview-tree::after {
+  content: '';
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 30px;
+  background: #2E7D32;
+  border-radius: 50%;
+}
+
+.racers-lineup {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.racer-preview-item {
+  display: flex;
+  align-items: center;
+  transform: translateX(-10px);
+}
+
+.racer-preview-img {
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
+}
+
+.players-bar {
+  background: rgba(0, 50, 100, 0.8);
+  padding: 8px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  backdrop-filter: blur(10px);
+  font-size: 14px;
+}
+
+.players-icon {
+  font-size: 20px;
+}
+
+.players-count {
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.betting-countdown {
+  font-size: 18px;
+  font-weight: 700;
+  color: #FFD700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.menu-actions {
+  background: linear-gradient(180deg, #0066cc 0%, #004d99 100%);
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+}
+
+.menu-actions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="rays" x="50" y="50" width="100" height="100" patternUnits="userSpaceOnUse"><polygon fill="%23ffffff08" points="50,50 100,0 100,35 50,50"/><polygon fill="%23ffffff08" points="50,50 100,65 100,100 50,50"/><polygon fill="%23ffffff08" points="50,50 0,0 0,35 50,50"/><polygon fill="%23ffffff08" points="50,50 0,65 0,100 50,50"/></pattern></defs><rect fill="url(%23rays)" width="100" height="100"/></svg>');
+  background-size: 200px;
+  opacity: 0.5;
+}
+
+.race-btn {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 60px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 36px;
+  color: var(--accent-orange);
+  background: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #ccc, 0 10px 20px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s;
+  margin-bottom: 15px;
+}
+
+.race-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 0 #ccc, 0 12px 24px rgba(0, 0, 0, 0.3);
+}
+
+.race-btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 0 #ccc, 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.race-btn-crown {
+  position: absolute;
+  top: -25px;
+  font-size: 30px;
+}
+
+.race-btn-stars {
+  font-size: 14px;
+  color: #ffd700;
+}
+
+.leaderboard-btn {
+  position: relative;
+  display: inline-block;
+  padding: 12px 40px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-blue);
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.leaderboard-btn:hover {
+  background: #f5f5f5;
+  border-color: var(--primary-blue);
+}
+
+.floating-coins {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.floating-coin {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: linear-gradient(135deg, #ffd700, #ffaa00);
+  border-radius: 50%;
+  animation: float-coin 3s ease-in-out infinite;
+}
+
+@keyframes float-coin {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(180deg); }
+}
+
+/* Category Selection */
+.category-select {
+  padding: 16px 20px;
+  background: linear-gradient(180deg, #1e90ff 0%, #0066cc 100%);
+  flex-shrink: 0;
+}
+
+.category-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 28px;
+  text-align: center;
+  color: white;
+  margin-bottom: 25px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.category-btn {
+  padding: 16px 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary-blue);
+  background: white;
+  border: 2px solid transparent;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-blue-light);
+}
+
+.category-btn.selected {
+  background: var(--primary-blue-light);
+  color: white;
+  border-color: white;
+}
+
+/* Character Selection */
+.character-select {
+  padding: 16px 20px;
+  background: linear-gradient(180deg, #1e90ff 0%, #0066cc 100%);
+  flex-shrink: 0;
+}
+
+.character-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 28px;
+  text-align: center;
+  color: white;
+  margin-bottom: 25px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+@media (max-width: 480px) {
+  .character-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+  }
+}
+
+.character-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.character-card:hover .character-img-wrapper {
+  transform: scale(1.1);
+}
+
+.character-card.selected .character-img-wrapper {
+  border-color: #ffd700;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.character-img-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #87ceeb, #fff);
+  border: 3px solid #4da6ff;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.character-img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.character-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  margin-top: 5px;
+  text-align: center;
+}
+
+/* Race Leaderboard */
+.race-leaderboard {
+  padding: 20px;
+  background: linear-gradient(180deg, #1e90ff 0%, #0066cc 100%);
+}
+
+.race-leaderboard {
+  background: linear-gradient(180deg, #2196F3 0%, #1565C0 100%);
+  padding: 20px 20px 25px;
+}
+
+.leaderboard-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 26px;
+  color: white;
+  margin-bottom: 16px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.leaderboard-item-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.leaderboard-racer-img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: #e8f4fd;
+  object-fit: contain;
+  padding: 4px;
+  border: 2px solid #90CAF9;
+}
+
+.leaderboard-racer-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.leaderboard-racer-name {
+  font-weight: 700;
+  color: #1a1a2e;
+  min-width: 65px;
+  font-size: 15px;
+}
+
+.leaderboard-players {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #1565C0;
+  font-size: 13px;
+  padding: 3px 10px;
+  background: #E3F2FD;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.leaderboard-prize {
+  font-family: 'Fredoka One', cursive;
+  font-size: 22px;
+  color: #1a1a2e;
+  font-weight: 700;
+}
+
+/* Live Standings during race */
+.live-standings {
+  padding: 6px 12px 8px;
+}
+
+.live-standings .leaderboard-title {
+  font-size: 15px;
+  margin-bottom: 6px;
+}
+
+.live-standings .leaderboard-list {
+  gap: 4px;
+}
+
+.live-standings .leaderboard-item {
+  padding: 4px 10px;
+}
+
+.live-standings .leaderboard-racer-img {
+  width: 28px;
+  height: 28px;
+  padding: 2px;
+}
+
+.live-standings .leaderboard-racer-name {
+  font-size: 13px;
+}
+
+.live-place {
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  font-weight: 700;
+  min-width: 32px;
+}
+
+.live-place-badge {
+  font-family: 'Fredoka One', cursive;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a2e;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+/* Game Container */
+.game-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+.game-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+/* Fullscreen race layout - canvas fills all available space */
+.game-main-fullscreen {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  min-height: 0;
+  padding-top: 64px;
+  padding-bottom: 84px;
+}
+
+/* Race canvas area — fills remaining space between header and bottom panel */
+.race-canvas-area {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.race-canvas-area canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Bottom panel below the race canvas — always mounted, fixed height prevents canvas resize jumps */
+.bottom-panel {
+  flex: 0 0 35vh;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.bottom-panel-mini {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.race-top-logo {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 12;
+  font-family: 'Fredoka One', cursive;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: 0.3px;
+  background: linear-gradient(180deg, #ffcc00 0%, #ff8800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+}
+
+/* Overlay panel positioned at bottom of the race canvas */
+.race-overlay-panel {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.race-overlay-panel > * {
+  pointer-events: auto;
+}
+
+/* Panel shown inside overlay during betting */
+.race-panel {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(30, 144, 255, 0.95) 0%, rgba(0, 102, 204, 0.95) 100%);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+.game-footer {
+  padding: 15px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Game HUD */
+.game-hud {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #1e90ff, #0066cc);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.hud-left, .hud-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.hud-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+
+.hud-value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.balance-amount {
+  color: #ffd700;
+}
+
+.current-bet {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.bet-label {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.bet-racer {
+  font-weight: 600;
+  color: #ffd700;
+}
+
+.bet-amount {
+  padding: 4px 10px;
+  background: rgba(0, 200, 83, 0.3);
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+/* Betting Panel */
+.betting-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(180deg, #1e90ff 0%, #0066cc 100%);
+  border-radius: 30px 30px 0 0;
+  padding: 25px 20px;
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.betting-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.betting-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.racers-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+@media (max-width: 600px) {
+  .racers-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .racers-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.racer-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background: white;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 3px solid transparent;
+}
+
+.racer-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.racer-card.selected {
+  border-color: #ffd700;
+  background: linear-gradient(180deg, #fff9e6, #fff);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+}
+
+.racer-number {
+  font-size: 10px;
+  font-weight: 700;
+  color: #999;
+  margin-bottom: 5px;
+}
+
+.racer-image-container {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #87ceeb, #e0f4ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.racer-image {
+  width: 85%;
+  height: 85%;
+  object-fit: contain;
+}
+
+.racer-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-align: center;
+}
+
+.racer-odds {
+  font-size: 10px;
+  color: var(--success-green);
+  font-weight: 600;
+}
+
+.bet-amount-section {
+  margin-bottom: 20px;
+}
+
+.bet-amount-section h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.preset-bets {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.preset-btn {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary-blue);
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover:not(:disabled) {
+  border-color: var(--primary-blue);
+}
+
+.preset-btn.active {
+  background: var(--primary-blue);
+  color: white;
+  border-color: var(--primary-blue);
+}
+
+.preset-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.custom-bet {
+  display: flex;
+  justify-content: center;
+}
+
+.custom-bet-input {
+  width: 150px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  text-align: center;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.custom-bet-input:focus {
+  border-color: var(--primary-blue);
+}
+
+.error-message {
+  text-align: center;
+  color: #ff6b6b;
+  font-weight: 600;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: rgba(255, 107, 107, 0.1);
+  border-radius: 10px;
+}
+
+.place-bet-btn {
+  width: 100%;
+  padding: 16px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 18px;
+  color: white;
+  background: linear-gradient(180deg, #00c853, #00a844);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 0 #008c39, 0 8px 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 15px;
+}
+
+.place-bet-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #008c39, 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.place-bet-btn:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #008c39, 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.place-bet-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.balance-info {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Race Results */
+.race-results-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.race-results-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.results-modal {
+  background: white;
+  border-radius: 30px;
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  animation: modal-pop 0.4s ease;
+}
+
+@keyframes modal-pop {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.results-modal.win {
+  border: 4px solid #ffd700;
+}
+
+.results-modal.lose {
+  border: 4px solid #999;
+}
+
+.results-title {
+  font-family: 'Fredoka One', cursive;
+  font-size: 28px;
+  color: var(--text-dark);
+  margin-bottom: 20px;
+}
+
+.winner-section {
+  margin-bottom: 20px;
+}
+
+.winner-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.winner-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 30px;
+  background: linear-gradient(180deg, #fff9e6, #fff);
+  border-radius: 20px;
+  border: 2px solid #ffd700;
+}
+
+.winner-image {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.winner-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  color: var(--text-dark);
+}
+
+.winner-position {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Top 3 Podium */
+.top3-podium {
+  margin-bottom: 20px;
+}
+
+.top3-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.top3-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.2s;
+}
+
+.top3-item.top3-player-bet {
+  background: rgba(76, 175, 80, 0.15);
+  box-shadow: 0 0 0 1px rgba(76, 175, 80, 0.4);
+}
+
+.top3-place {
+  font-family: 'Fredoka One', cursive;
+  font-size: 15px;
+  min-width: 50px;
+  text-align: center;
+}
+
+.top3-image {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.top3-info {
+  flex: 1;
+  text-align: left;
+}
+
+.top3-name {
+  font-family: 'Fredoka One', cursive;
+  font-size: 16px;
+  color: #fff;
+}
+
+.top3-bets {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 2px;
+}
+
+.top3-your-bet {
+  font-size: 10px;
+  font-weight: 800;
+  color: #4CAF50;
+  background: rgba(76, 175, 80, 0.2);
+  padding: 2px 8px;
+  border-radius: 8px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.payout-section {
+  margin-bottom: 20px;
+}
+
+.payout-label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.payout-amount {
+  font-family: 'Fredoka One', cursive;
+  font-size: 32px;
+}
+
+.win-amount {
+  color: var(--success-green);
+}
+
+.lose-amount {
+  color: var(--error-red);
+}
+
+.balance-update {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.new-balance {
+  font-weight: 700;
+  color: var(--primary-blue);
+}
+
+.stats-section {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: #f5f5f5;
+  border-radius: 15px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.race-again-btn {
+  padding: 14px 40px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 18px;
+  color: white;
+  background: linear-gradient(180deg, var(--accent-orange), #e67e00);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 0 #cc6600, 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.race-again-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Wallet Connect */
+.wallet-connect-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  background: linear-gradient(180deg, #2196f3 0%, #1976d2 100%);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 30px;
+  padding: 40px 30px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header h2 {
+  font-family: 'Fredoka One', cursive;
+  font-size: 26px;
+  color: var(--text-dark);
+  margin-bottom: 10px;
+}
+
+.modal-header p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.username-input {
+  width: 100%;
+  padding: 14px 20px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.username-input:focus {
+  border-color: var(--primary-blue);
+}
+
+.connect-btn {
+  width: 100%;
+  padding: 14px;
+  font-family: 'Fredoka One', cursive;
+  font-size: 18px;
+  color: white;
+  background: linear-gradient(180deg, var(--primary-blue), var(--primary-blue-dark));
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 0 #004d99, 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.connect-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.connect-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.starting-info {
+  margin-top: 10px;
+  padding: 15px;
+  background: #f5f9ff;
+  border-radius: 15px;
+}
+
+.starting-info p {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .menu-title {
+    font-size: 24px;
+  }
+  
+  .race-btn {
+    padding: 12px 40px;
+    font-size: 28px;
+  }
+  
+  .race-preview {
+    min-height: 250px;
+  }
+  
+  .racer-preview-img {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .game-main {
+    padding: 10px;
+  }
+
+  .game-main-fullscreen {
+    min-height: 0;
+    padding-top: 58px;
+    padding-bottom: 76px;
+  }
+
+  .race-top-logo {
+    font-size: 28px;
+    top: 8px;
+  }
+  
+  .betting-panel {
+    max-height: 80vh;
+    padding: 20px 15px;
+  }
+  
+  .betting-title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-header {
+    padding: 8px 12px;
+  }
+  
+  .menu-title {
+    font-size: 20px;
+  }
+  
+  .race-btn {
+    padding: 10px 35px;
+    font-size: 24px;
+  }
+  
+  .leaderboard-btn {
+    padding: 10px 30px;
+    font-size: 14px;
+  }
+  
+  .character-title,
+  .category-title,
+  .leaderboard-title {
+    font-size: 22px;
+  }
+  
+  .results-modal {
+    padding: 20px;
+  }
+  
+  .results-title {
+    font-size: 22px;
+  }
+  
+  .winner-image {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .payout-amount {
+    font-size: 26px;
+  }
+}
+
+/* Confetti Animation */
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.confetti::before,
+.confetti::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #ffd700;
+  animation: confetti-fall 2s ease infinite;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-100%) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
