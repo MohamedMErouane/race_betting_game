@@ -1,37 +1,13 @@
 "use client";
-import React, { useState } from 'react';
-import { useGameStore } from '@/lib/gameStore';
+import React from 'react';
+import { useWalletModal } from '@solana/wallet-adapter-react-ui';
 
 const WalletConnect: React.FC = () => {
-    const [inputUsername, setInputUsername] = useState('');
-    const { username, balance, connectWallet, disconnectWallet } = useGameStore();
+    const { setVisible } = useWalletModal();
 
     const handleConnect = () => {
-        if (inputUsername.trim()) {
-            connectWallet(inputUsername.trim());
-            setInputUsername('');
-        }
+        setVisible(true);
     };
-
-    if (username) {
-        return (
-            <div className="wallet-connected">
-                <div className="wallet-info">
-                    <div className="username">
-                        <span className="label">Player:</span>
-                        <span className="value">{username}</span>
-                    </div>
-                    <div className="balance">
-                        <span className="label">Balance:</span>
-                        <span className="value">{balance} credits</span>
-                    </div>
-                </div>
-                <button onClick={disconnectWallet} className="disconnect-btn">
-                    Disconnect
-                </button>
-            </div>
-        );
-    }
 
     return (
         <div className="wallet-connect-modal">
@@ -45,12 +21,12 @@ const WalletConnect: React.FC = () => {
                                     <stop offset="100%" stopColor="#4DA6FF" />
                                 </linearGradient>
                             </defs>
-                            <text 
-                                x="100" 
-                                y="45" 
-                                textAnchor="middle" 
-                                fontFamily="'Fredoka One', cursive, Arial Black" 
-                                fontSize="36" 
+                            <text
+                                x="100"
+                                y="45"
+                                textAnchor="middle"
+                                fontFamily="'Fredoka One', cursive, Arial Black"
+                                fontSize="36"
                                 fill="url(#logoGradient)"
                                 stroke="#FFF"
                                 strokeWidth="1"
@@ -60,32 +36,23 @@ const WalletConnect: React.FC = () => {
                         </svg>
                     </div>
                     <h2>🏁 Welcome to MemeRace!</h2>
-                    <p>Enter your username to start racing</p>
+                    <p>Connect your Solana wallet to start racing</p>
                 </div>
 
                 <div className="modal-body">
-                    <input
-                        type="text"
-                        value={inputUsername}
-                        onChange={(e) => setInputUsername(e.target.value)}
-                        placeholder="Enter username..."
-                        className="username-input"
-                        onKeyPress={(e) => e.key === 'Enter' && handleConnect()}
-                        maxLength={20}
-                    />
-
                     <button
                         onClick={handleConnect}
                         className="connect-btn"
-                        disabled={!inputUsername.trim()}
                     >
-                        Connect Wallet
+                        🔗 Connect Wallet
                     </button>
 
                     <div className="starting-info">
-                        <p>🎁 Starting balance: <strong>1000 credits</strong></p>
-                        <p style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>
-                            Race meme coins and win big!
+                        <p style={{ fontSize: '13px', color: '#aaa', marginTop: '16px' }}>
+                            Supports Phantom, Solflare &amp; other Solana wallets
+                        </p>
+                        <p style={{ fontSize: '12px', color: '#666', marginTop: '4px' }}>
+                            Solana Devnet
                         </p>
                     </div>
                 </div>

@@ -1,6 +1,9 @@
 "use client";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
+import { useWallet } from '@solana/wallet-adapter-react';
+import { useConnection } from '@solana/wallet-adapter-react';
+import { LAMPORTS_PER_SOL } from '@solana/web3.js';
 import WalletConnect from '../components/ui/WalletConnect';
 import IntroScreen from '../components/ui/IntroScreen';
 import MainMenu from '../components/ui/MainMenu';
@@ -10,6 +13,7 @@ import RaceLeaderboard from '../components/ui/RaceLeaderboard';
 import RaceLiveStandings from '../components/ui/RaceLiveStandings';
 import GameHUD from '../components/ui/GameHUD';
 import { useGameStore } from '../lib/gameStore';
+import { useBetting } from '../lib/useBetting';
 import type { RaceGameHandle } from '../components/game/RaceGame';
 
 // Dynamically import RaceGame with SSR disabled to avoid Phaser SSR issues
@@ -36,8 +40,45 @@ const RaceGame = dynamic(() => import('../components/game/RaceGame'), {
 const RACE_FLOW_STATES = ['CATEGORY_SELECT', 'CHARACTER_SELECT', 'BETTING', 'COUNTDOWN', 'RACING', 'FINISHED'];
 
 export default function Home() {
-  const { username, gameState, setGameState, finishRace, tickBettingTimer, startBettingRound } = useGameStore();
+  const { username, gameState, setGameState, finishRace, tickBettingTimer, startBettingRound, solBalance, displayName, disconnectWallet, connectWallet, updateSolBalance } = useGameStore();
+  const { connected, publicKey } = useWallet();
+  const { connection } = useConnection();
   const raceGameRef = useRef<RaceGameHandle>(null);
+  const hasConnected = useRef(false);
+  const betting = useBetting();
+
+  // Sync wallet connection to game store (runs at page level so it works on all screens)
+  useEffect(() => {
+    if (connected && publicKey) {
+      hasConnected.current = true;
+      const addr = publicKey.toBase58();
+      const shortAddr = `${addr.slice(0, 4)}...${addr.slice(-4)}`;
+      connectWallet(addr, shortAddr);
+    }
+  }, [connected, publicKey, connectWallet]);
+
+  // Fetch SOL balance when wallet is connected
+  useEffect(() => {
+    if (!connected || !publicKey) return;
+    let cancelled = false;
+    const fetchBalance = async () => {
+      try {
+        const lamports = await connection.getBalance(publicKey);
+        if (!cancelled) updateSolBalance(lamports / LAMPORTS_PER_SOL);
+      } catch { /* retry next poll */ }
+    };
+    fetchBalance();
+    const interval = setInterval(fetchBalance, 15000);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, [connected, publicKey, connection, updateSolBalance]);
+
+  // Sync wallet disconnect: only fires after wallet was connected at least once
+  // (prevents premature disconnect before autoConnect completes)
+  useEffect(() => {
+    if (!connected && hasConnected.current && username) {
+      disconnectWallet();
+    }
+  }, [connected, username, disconnectWallet]);
 
   // Auto-enter race flow on app entry (no manual RACE button click)
   useEffect(() => {
@@ -66,10 +107,12 @@ export default function Home() {
     }
 
     const nextRoundTimeout = window.setTimeout(() => {
+      betting.resetBet();
       startBettingRound();
     }, 5000);
 
     return () => window.clearTimeout(nextRoundTimeout);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState, startBettingRound]);
 
   // Handle intro completion
@@ -86,8 +129,8 @@ export default function Home() {
     return <IntroScreen onComplete={handleIntroComplete} />;
   }
 
-  // If user not connected, show wallet connect
-  if (!username) {
+  // If wallet not connected, show wallet connect
+  if (!connected) {
     return <WalletConnect />;
   }
 
@@ -110,19 +153,23 @@ export default function Home() {
         <header className="menu-header">
           <button className="menu-header-btn" title="Settings">⚙️</button>
           <h1 className="menu-title">MemeRace</h1>
+          <span className="header-wallet-info">{displayName} | {solBalance.toFixed(2)} SOL</span>
           <button className="menu-header-btn" title="Menu">☰</button>
         </header>
 
         {/* Race canvas fills available space */}
         <div className="race-canvas-area">
-          <RaceGame ref={raceGameRef} onRaceFinish={finishRace} />
+          <RaceGame ref={raceGameRef} onRaceFinish={(finishOrder) => {
+            finishRace(finishOrder);
+            betting.submitFinish(finishOrder);
+          }} />
         </div>
 
         {/* Single always-mounted bottom panel — content swaps inside to prevent layout jumps */}
         <div className="bottom-panel">
           {gameState === 'CATEGORY_SELECT' && <CategorySelect />}
-          {gameState === 'CHARACTER_SELECT' && <CharacterSelect />}
-          {gameState === 'FINISHED' && <RaceLeaderboard />}
+          {gameState === 'CHARACTER_SELECT' && <CharacterSelect betting={betting} />}
+          {gameState === 'FINISHED' && <RaceLeaderboard payoutResult={betting.payoutResult} />}
           {isRacing && <RaceLiveStandings raceGameRef={raceGameRef} />}
         </div>
       </div>

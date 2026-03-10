@@ -3,7 +3,7 @@ import React from 'react';
 import { useGameStore } from '@/lib/gameStore';
 
 const CategorySelect: React.FC = () => {
-  const { playerCount, betCategories, selectCategory, bettingTimeLeft } = useGameStore();
+  const { playerCount, betCategories, selectCategory, bettingTimeLeft, solBalance, displayName } = useGameStore();
 
   const solCategories = betCategories.filter(c => c.currency === 'SOL');
   const skrCategories = betCategories.filter(c => c.currency === 'SKR');
@@ -14,6 +14,7 @@ const CategorySelect: React.FC = () => {
       <div className="players-bar">
         <span className="players-icon">👥</span>
         <span className="players-count">{playerCount} Players</span>
+        <span className="wallet-balance">💎 {displayName} — {solBalance.toFixed(4)} SOL</span>
         <span style={{ marginLeft: 'auto' }} className="betting-countdown">⏱ {bettingTimeLeft}s</span>
       </div>
 

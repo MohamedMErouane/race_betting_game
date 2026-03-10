@@ -40,6 +40,9 @@ export interface Top3Entry {
 interface GameStoreState {
   // User/Wallet
   username: string | null;
+  walletAddress: string | null;
+  displayName: string | null;
+  solBalance: number;
   balance: number;
 
   // Game State
@@ -65,8 +68,9 @@ interface GameStoreState {
   leaderboard: LeaderboardEntry[];
 
   // Actions
-  connectWallet: (username: string) => void;
+  connectWallet: (walletAddress: string, displayName: string) => void;
   disconnectWallet: () => void;
+  updateSolBalance: (sol: number) => void;
   selectCategory: (category: BetCategory) => void;
   selectRacer: (racerIndex: number) => void;
   placeBet: (racerIndex: number, amount: number) => boolean;
@@ -107,6 +111,9 @@ export const useGameStore = create<GameStoreState>()(
     (set, get) => ({
       // Initial state
       username: null,
+      walletAddress: null,
+      displayName: null,
+      solBalance: 0,
       balance: 0,
       gameState: 'INTRO',
       selectedRacer: null,
@@ -126,11 +133,12 @@ export const useGameStore = create<GameStoreState>()(
       betCategories: BET_CATEGORIES,
       leaderboard: [],
 
-      // Connect wallet (mock)
-      connectWallet: (username: string) => {
+      // Connect wallet (real Solana wallet)
+      connectWallet: (walletAddress: string, displayName: string) => {
         set({
-          username,
-          balance: INITIAL_BALANCE,
+          username: displayName,
+          walletAddress,
+          displayName,
           gameState: 'MAIN_MENU',
         });
       },
@@ -139,8 +147,11 @@ export const useGameStore = create<GameStoreState>()(
       disconnectWallet: () => {
         set({
           username: null,
+          walletAddress: null,
+          displayName: null,
+          solBalance: 0,
           balance: 0,
-          gameState: 'INTRO',
+          gameState: 'MAIN_MENU',
           selectedRacer: null,
           selectedCategory: null,
           betAmount: 0,
@@ -152,6 +163,11 @@ export const useGameStore = create<GameStoreState>()(
             totalWinnings: 0,
           },
         });
+      },
+
+      // Update real SOL balance from chain
+      updateSolBalance: (sol: number) => {
+        set({ solBalance: sol });
       },
 
       // Select betting category
@@ -318,6 +334,8 @@ export const useGameStore = create<GameStoreState>()(
       name: 'race-game-storage',
       partialize: (state) => ({
         username: state.username,
+        walletAddress: state.walletAddress,
+        displayName: state.displayName,
         balance: state.balance,
         stats: state.stats,
       }),
